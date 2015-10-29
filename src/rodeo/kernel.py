@@ -101,6 +101,43 @@ def __get_packages():
     print(json.dumps(installed_packages_list))
 """
 
+vars_patch_r = """
+library(jsonlite)
+
+..get_variables <- function() {
+  variables <- list(
+    "list"= data.frame(name="", repr=""),
+    "dict"= data.frame(name="", repr=""),
+    "ndarray"= data.frame(name="", repr=""),
+    "DataFrame"= data.frame(name="", repr=""),
+    "Series"= data.frame(name="", repr="")
+  )
+  dtypeLookup <- list(
+    "data.frame"="DataFrame",
+    "list"="list"
+  )
+  for (v in ls()) {
+    dtype <- typeof(get(v))
+    dtype <- dtypeLookup[[dtype]]
+    if (! is.null(dtype)) {
+      variables[[dtype]] <- append(
+        variables[[dtype]],
+        list(name=v[1], repr=sprintf("List of length %d", length(get(v))
+      )
+    }
+  }
+  cat(jsonlite::toJSON(variables))
+}
+
+..get_packages <- function() {
+  pkgs <- data.frame(installed.packages()[,c("Package", "Version")])
+  names(pkgs) <- c("name", "version") 
+  cat(jsonlite::toJSON(pkgs))
+}
+
+
+"""
+
 class Kernel(object):
     # kernel config is stored in a dot file with the active directory
     def __init__(self, config, active_dir, pyspark):
@@ -142,11 +179,18 @@ class Kernel(object):
 
         # fire up the kernel with the appropriate config
         self.client = BlockingKernelClient(connection_file=config)
+        self.client.write_connection_file()
         self.client.load_connection_file()
         self.client.start_channels()
         # load our monkeypatches...
-        self.client.execute("%matplotlib inline")
-        self.client.execute(vars_patch)
+        # self.client.execute("%matplotlib inline")
+        # self.client.execute(vars_patch)
+
+        args = ["R", "-e", "IRkernel::main('%s')" % config]
+        p2 = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p.kill()
+        atexit.register(p2.terminate)
+        self.client.execute(vars_patch_r)
 
     def _run_code(self, execution_id, code, timeout=0.1):
         # this function executes some code and waits for it to completely finish
@@ -206,6 +250,7 @@ class Kernel(object):
                 output['error'] = "\n".join(reply['content']['traceback'])
 
             # TODO: if we have something non-trivial to send back...
+            sys.stderr.write(json.dumps(output) + '\n')
             sys.stdout.write(json.dumps(output) + '\n')
             sys.stdout.flush()
             # TODO: should probably get rid of all this
@@ -263,6 +308,7 @@ class Kernel(object):
                     results.append(result)
                 output['output'] = results
                 output['status'] = "complete"
+                sys.stderr.write(json.dumps(output) + '\n')
                 sys.stdout.write(json.dumps(output) + '\n')
                 sys.stdout.flush()
                 return
@@ -288,10 +334,13 @@ if __name__=="__main__":
 
     while True:
         line = sys.stdin.readline()
+        sys.stderr.write(line)
 
         # watch for kill command
         if line.strip()=="EXIT":
             sys.exit(0)
 
         data = json.loads(line)
+        if data['code'].startswith("__"):
+            data['code'] = data['code'].replace("__", "..")
         k.execute(data['id'], data['code'], data.get('complete', False))

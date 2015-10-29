@@ -49,6 +49,7 @@ function findMeAPython(fn) {
       }
 
       pythonCmds = pythonCmds.concat([
+        "/home/vagrant/miniconda/bin/python",
         "/home/sciencecluster/.anaconda2/bin/python",
         "/root/miniconda/bin/python",
         "/usr/local/bin/ipython",
