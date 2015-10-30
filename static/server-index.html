@@ -4,6 +4,7 @@
   <title>Rodeo</title>
   <link id="rodeo-theme" href="css/styles.css" rel="stylesheet"/>
   <script src="js/ace.min.js"></script>
+  <script src="js/external.min.js"></script>
   <!-- custom.js allows you to inject your own javascript, similar to Jupyter
    (https://github.com/ipython-contrib/IPython-notebook-extensions/wiki) -->
   <script src="js/custom.js"></script>
@@ -41,7 +42,7 @@
             <div class="col-sm-11" style="padding: 0px; margin: 0px; padding-left: 5px;">
               <ul id="editorsTab" class="nav nav-tabs">
                 <li>
-                  <a href="#" onclick="shell.openExternal('http://yhat.com/');">
+                  <a href="#" onclick="http://yhat.com/" target=_blank>
                     <img src="img/rodeo-logo.png" title="Yee Haw!" style="height: 17px; padding-left: 5px;"/>
                   </a>
                 </li>
@@ -349,7 +350,7 @@
     <!-- Tour Display Modal -->
 
     <!-- hidden stuff -->
-    <input id="file-upload-trigger" type="file" style="visibility:hidden" />
+    <input id="file-upload-trigger" type="file" style="visibility:hidden; height: 0px;" />
   <script src="js/server-main.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
