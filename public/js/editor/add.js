@@ -5,7 +5,13 @@ function addEditor() {
   } else {
     id = 1;
   }
-  var editor_tab_html = editor_tab_template({ n: id, name: "Untitled-" + id + ".py", isFirst: id==0});
+  var ext;
+  if (getLang()=="python") {
+    ext = ".py";
+  } else if (getLang()=="r") {
+    ext = ".R";
+  }
+  var editor_tab_html = editor_tab_template({ n: id, name: "Untitled-" + id + ext, isFirst: id==0});
   var editor_html = editor_template({ n: id });
 
   $(editor_tab_html).insertBefore($("#add-tab").parent());

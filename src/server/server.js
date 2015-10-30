@@ -90,16 +90,17 @@ app.get('/variable', function(req, res) {
       dict: "pp.pprint(" + varname + ")"
     },
     r: {
-      "data.frame": 'cat(print(xtable(' + varname + '), type="html"))',
+      "DataFrame": 'print(xtable(' + varname + '), type="html")',
       list: "cat(" + varname + ")"
     }
   };
 
-  var command = show_var_statements[req.query.type];
+  var command = show_var_statements["r"][req.query.type];
   python.execute(command, false, function(result) {
     // poor man's template...
     var variable = result.output;
     variable = variable.replace('class="dataframe"', 'class="table table-bordered"');
+    variable = variable.replace('border=1', 'class="table table-bordered"');
     var html = "<html><head><link id=\"rodeo-theme\" href=\"css/styles.css\" rel=\"stylesheet\"/></head><body>" + variable + "</body>";
     res.send(html);
   });

@@ -46,7 +46,13 @@ function indexFiles() {
 }
 
 function refreshVariables() {
-  executeCommand("__get_variables()", false, function(result) {
+  var cmd;
+  if (getLang()=="python") {
+    cmd = "__get_variables()";
+  } else if (getLang()=="r") {
+    cmd = "..get_variables()";
+  }
+  executeCommand(cmd, false, function(result) {
     if (! result.output) {
       $("#vars").children().remove();
       console.error("[ERROR]: Result from code execution was null.");
@@ -57,6 +63,9 @@ function refreshVariables() {
     var variableTypes = ["list", "dict", "ndarray", "DataFrame", "Series"];
     variableTypes.forEach(function(type) {
       var isOnDesktop = isDesktop();
+      if (! variables[type]) {
+        return;
+      }
       variables[type].forEach(function(v) {
         $("#vars").append(active_variables_row_template({
             name: v.name, type: type, repr: v.repr, isDesktop: isOnDesktop
@@ -72,7 +81,13 @@ function refreshVariables() {
 }
 
 function refreshPackages() {
-  executeCommand("__get_packages()", false, function(result) {
+  var cmd;
+  if (getLang()=="python") {
+    cmd = "__get_variables()";
+  } else if (getLang()=="r") {
+    cmd = "..get_packages()";
+  }
+  executeCommand(cmd, false, function(result) {
     var packages = JSON.parse(result.output);
     $("#packages-rows").children().remove();
     packages.forEach(function(p) {
@@ -326,4 +341,3 @@ function saveEditor(editor, saveas, fn) {
     });
   }
 }
-

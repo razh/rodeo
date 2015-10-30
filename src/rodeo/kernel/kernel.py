@@ -24,43 +24,6 @@ import re
 dirname = os.path.dirname(os.path.abspath(__file__))
 
 
-vars_patch_r = """
-library(jsonlite)
-
-..get_variables <- function() {
-  variables <- list(
-    "list"= data.frame(name="", repr=""),
-    "dict"= data.frame(name="", repr=""),
-    "ndarray"= data.frame(name="", repr=""),
-    "DataFrame"= data.frame(name="", repr=""),
-    "Series"= data.frame(name="", repr="")
-  )
-  dtypeLookup <- list(
-    "data.frame"="DataFrame",
-    "list"="list"
-  )
-  for (v in ls()) {
-    dtype <- typeof(get(v))
-    dtype <- dtypeLookup[[dtype]]
-    if (! is.null(dtype)) {
-      variables[[dtype]] <- append(
-        variables[[dtype]],
-        list(name=v[1], repr=sprintf("List of length %d", length(get(v))
-      )
-    }
-  }
-  cat(jsonlite::toJSON(variables))
-}
-
-..get_packages <- function() {
-  pkgs <- data.frame(installed.packages()[,c("Package", "Version")])
-  names(pkgs) <- c("name", "version") 
-  cat(jsonlite::toJSON(pkgs))
-}
-
-
-"""
-
 class Kernel(object):
     # kernel config is stored in a dot file with the active directory
     def __init__(self, config, active_dir, pyspark):
@@ -105,21 +68,17 @@ class Kernel(object):
         self.client.write_connection_file()
         self.client.load_connection_file()
         self.client.start_channels()
-        # load our monkeypatches...
-<<<<<<< HEAD:src/rodeo/kernel.py
-        # self.client.execute("%matplotlib inline")
-        # self.client.execute(vars_patch)
 
+        # load R
         args = ["R", "-e", "IRkernel::main('%s')" % config]
         p2 = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         p.kill()
         atexit.register(p2.terminate)
-        self.client.execute(vars_patch_r)
-=======
-        self.client.execute("%matplotlib inline")
+        # self.client.execute("%matplotlib inline")
         python_patch_file = os.path.join(dirname, "langs", "python-patch.py")
-        self.client.execute("%run " + python_patch_file)
->>>>>>> master:src/rodeo/kernel/kernel.py
+        # self.client.execute("%run " + python_patch_file)
+        r_patch_file = os.path.join(dirname, "langs", "r-patch.R")
+        self.client.execute(open(r_patch_file).read())
 
     def _run_code(self, execution_id, code, timeout=0.1):
         # this function executes some code and waits for it to completely finish

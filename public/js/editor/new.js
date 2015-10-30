@@ -14,7 +14,11 @@ function newEditor(id) {
   var editor = ace.edit(id);
   editor.completer = new Autocomplete(editor);
   editor.setTheme("ace/theme/chrome");
-  editor.getSession().setMode("ace/mode/python");
+  if (getLang()=="python") { 
+    editor.getSession().setMode("ace/mode/python");
+  } else if (getLang()=="r"){
+    editor.getSession().setMode("ace/mode/r");
+  }
   editor.setOptions({
     useSoftTabs: true,
     showPrintMargin: false,

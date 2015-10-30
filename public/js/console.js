@@ -1,9 +1,30 @@
 // TODO: just get this from IPython stderr
-var msg = "IPython -- An enhanced Interactive Python.\n"
-msg += "?         -> Introduction and overview of IPython's features.\n"
-msg += "%quickref -> Quick reference.\n"
-msg += "help      -> Python's own help system.\n"
-msg += "object?   -> Details about 'object', use 'object??' for extra details.\n"
+var msg
+if (getLang()=="python") {
+  msg = "IPython -- An enhanced Interactive Python.\n"
+  msg += "?         -> Introduction and overview of IPython's features.\n"
+  msg += "%quickref -> Quick reference.\n"
+  msg += "help      -> Python's own help system.\n"
+  msg += "object?   -> Details about 'object', use 'object??' for extra details.\n"
+} else if (getLang()=="r") {
+  msg = "R version 3.2.0 (2015-04-16) -- \"Full of Ingredients\"\n"
+  msg += "Copyright (C) 2015 The R Foundation for Statistical Computing\n"
+  msg += "Platform: x86_64-apple-darwin13.4.0 (64-bit)\n"
+  msg += "\n";
+  msg += "R is free software and comes with ABSOLUTELY NO WARRANTY.\n"
+  msg += "You are welcome to redistribute it under certain conditions.\n"
+  msg += "Type 'license()' or 'licence()' for distribution details.\n"
+  msg += "\n";
+  msg += "  Natural language support but running in an English locale\n"
+  msg += "\n";
+  msg += "R is a collaborative project with many contributors.\n"
+  msg += "Type 'contributors()' for more information and\n"
+  msg += "'citation()' on how to cite R or R packages in publications.\n"
+  msg += "\n";
+  msg += "Type 'demo()' for some demos, 'help()' for on-line help, or\n"
+  msg += "'help.start()' for an HTML browser interface to help.\n"
+  msg += "Type 'q()' to quit R.\n"
+}
 var jqconsole = $('#console').jqconsole(msg, '>>> ');
 function startPrompt() {
   // Start the prompt with history enabled.

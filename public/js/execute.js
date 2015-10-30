@@ -40,9 +40,6 @@ function sendCommand(input, hideResult) {
 }
 
 function handleCommandResults(result) {
-  if (result.stream) {
-    jqconsole.Write(result.stream || "");
-  }
 
   if (/^help[(]/.test(result.command)) {
     if (result.output) {
@@ -50,6 +47,10 @@ function handleCommandResults(result) {
       $('a[href="#help"]').tab("show");
       return;
     }
+  }
+
+  if (result.stream) {
+    jqconsole.Write(result.stream || "");
   }
 
   if (result.image || result.html) {
