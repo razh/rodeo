@@ -60,7 +60,7 @@ function refreshVariables() {
     }
     var variables = JSON.parse(result.output);
     $("#vars").children().remove();
-    var variableTypes = ["list", "dict", "ndarray", "DataFrame", "Series"];
+    var variableTypes = ["list", "dict", "ndarray", "DataFrame", "Series", "vector"];
     variableTypes.forEach(function(type) {
       var isOnDesktop = isDesktop();
       if (! variables[type]) {
@@ -144,7 +144,6 @@ function findFile() {
     });
   });
 }
-
 
 function setDefaultPreferences(editor) {
   getRC(function(rc) {

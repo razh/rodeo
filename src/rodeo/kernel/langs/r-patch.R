@@ -1,13 +1,15 @@
 library(jsonlite)
 library(plyr)
 library(xtable)
+library(stringr)
 
 
 ..get_type <- function(value) {
   ifelse(is.data.frame(value), "DataFrame",
     ifelse(is.matrix(value), "DataFrame",
-      ifelse(is.vector(value), "list",
-             "UNK")))
+      ifelse(is.list(value), "list",
+        ifelse(is.vector(value), "vector",
+             "UNK"))))
 }
 
 ..get_variables <- function() {
@@ -24,10 +26,15 @@ library(xtable)
   rownames(variables) <- NULL
   names(variables)[1] <- "type"
   variables$type <- as.character(variables$type)
-  # variables$repr <- sapply(variables$name, function(x) {
-  #   toString(summary(get(x)))
-  # })
-  variables$repr <- "";
+  variables$repr <- sapply(variables$name, function(..x) {
+    ..x <- get(..x)
+    output <- capture.output(str(..x))
+    if (is.data.frame(..x) || is.matrix(..x)) {
+      output <- output[1]
+      output <- stringr::str_replace_all(output, ":", "")
+    }
+    paste(output, collapse="\n")
+  })
 
   variables <- dlply(variables, .(type), I)
   cat(jsonlite::toJSON(variables))

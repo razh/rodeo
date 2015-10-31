@@ -1,5 +1,11 @@
 function restartSession() {
-  sendCommand("%reset -f");
+  var cmd;
+  if (getLang()=="python") {
+    cmd = "%reset -f";
+  } else if (getLang()=="r") {
+    cmd = "rm(list = ls())";
+  }
+  sendCommand(cmd);
   refreshVariables();
 }
 

@@ -16,14 +16,14 @@ function setupMenu() {
   var FileMenu = {
     name: "File",
     items: [
-      { text: "File", shortcut: "⌘ + opt + shift + n", onclick: "$('#add-tab').click();" },
-      { text: "Open", shortcut: "⌘ + shift + o", onclick: "$('#file-upload-trigger').click();" },
+      { text: "File", shortcut: "⌘ + ⌥ + ⇧ + n", onclick: "$('#add-tab').click();" },
+      { text: "Open", shortcut: "⌘ + ⇧ + o", onclick: "$('#file-upload-trigger').click();" },
       { isDivider: true },
       { text: "Save", shortcut: "⌘ + s", onclick: "saveActiveEditor();" },
       { text: "Save As", shortcut: "", onclick: "saveActiveEditor(true);" },
       { isDivider: true },
-      { text: "Close", shortcut: "⌘ + opt + shift + w / ⌘ + b", onclick: "closeActiveFile();" },
-      { text: "Find File", shortcut: "⌘ + opt + t / ⌘ + k", onclick: "findFile();" }
+      { text: "Close", shortcut: "⌘ + ⌥ + ⇧ + w / ⌘ + b", onclick: "closeActiveFile();" },
+      { text: "Find File", shortcut: "⌘ + ⌥ + t / ⌘ + k", onclick: "findFile();" }
     ]
   };
 
@@ -35,14 +35,14 @@ function setupMenu() {
     name: "View",
     items: [
       { text: "Change Editor" },
-      { text: "└ Move One Left", shortcut: "ctrl + opt + left", onclick: "shiftEditorLeft();"},
-      { text: "└ Move One Right", shortcut: "ctrl + opt + right", onclick: "shiftEditorRight();"},
+      { text: "└ Move One Left", shortcut: "ctrl + ⌥ + left", onclick: "⇧EditorLeft();"},
+      { text: "└ Move One Right", shortcut: "ctrl + ⌥ + right", onclick: "⇧EditorRight();"},
       { isDivider: true },
       { text: "Focus" },
-      { text: "└ Editor", shortcut: "⌘ + shift + 1", onclick: "focusOnEditor();"},
-      { text: "└ Console", shortcut: "⌘ + shift + 2", onclick: "focusOnConsole();"},
-      { text: "└ Variables & History", shortcut: "⌘ + shift + 3", onclick: "focusOnTopRight();"},
-      { text: "└ Files, Plots, Packages, ...", shortcut: "⌘ + shift + 4", onclick: "focusOnBottomRight();"}
+      { text: "└ Editor", shortcut: "⌘ + ⇧ + 1", onclick: "focusOnEditor();"},
+      { text: "└ Console", shortcut: "⌘ + ⇧ + 2", onclick: "focusOnConsole();"},
+      { text: "└ Variables & History", shortcut: "⌘ + ⇧ + 3", onclick: "focusOnTopRight();"},
+      { text: "└ Files, Plots, Packages, ...", shortcut: "⌘ + ⇧ + 4", onclick: "focusOnBottomRight();"}
     ]
   };
 
@@ -66,8 +66,8 @@ function setupMenu() {
     items: [
       { text: "Restart Session", onclick: "restartSession();" },
       { text: "Set Working Directory", onclick: "setWorkingDirectory();" },
-      { text: "Last Command", shortcut: "⌘ + shift + 1", onclick: "runLastCommand();" },
-      { text: "2nd to Last Command", shortcut: "⌘ + shift + 2", onclick: "run2ndToLastCommand();" }
+      { text: "Last Command", shortcut: "⌘ + ⇧ + 1", onclick: "runLastCommand();" },
+      { text: "2nd to Last Command", shortcut: "⌘ + ⇧ + 2", onclick: "run2ndToLastCommand();" }
     ]
   };
 

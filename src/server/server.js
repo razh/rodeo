@@ -35,7 +35,8 @@ kernel(function(err, python) {
   if (python==null) {
     console.log("[ERROR]: python came back null");
   }
-  python.execute("cd " + USER_WD);
+  // python.execute("cd " + USER_WD);
+  python.execute("setwd('" + USER_WD + "')");
 });
 
 app.get('/', function(req, res) {
@@ -91,7 +92,8 @@ app.get('/variable', function(req, res) {
     },
     r: {
       "DataFrame": 'print(xtable(' + varname + '), type="html")',
-      list: "cat(" + varname + ")"
+      list: "print(" + varname + ")",
+      vector: "print(" + varname + ")"
     }
   };
 
@@ -99,8 +101,12 @@ app.get('/variable', function(req, res) {
   python.execute(command, false, function(result) {
     // poor man's template...
     var variable = result.output;
-    variable = variable.replace('class="dataframe"', 'class="table table-bordered"');
-    variable = variable.replace('border=1', 'class="table table-bordered"');
+    if (/table/.test(variable)) {
+      variable = variable.replace('class="dataframe"', 'class="table table-bordered"');
+      variable = variable.replace('border=1', 'class="table table-bordered"');
+    } else {
+      variable = "<pre>" + variable + "</pre>";
+    }
     var html = "<html><head><link id=\"rodeo-theme\" href=\"css/styles.css\" rel=\"stylesheet\"/></head><body>" + variable + "</body>";
     res.send(html);
   });
