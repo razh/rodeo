@@ -8,14 +8,21 @@ function showVariable(varname, type) {
   // variableWindow.openDevTools();
 
   var show_var_statements = {
-    DataFrame: "print(" + varname + "[:1000].to_html())",
-    Series: "print(" + varname + "[:1000].to_frame().to_html())",
-    list: "pp.pprint(" + varname + ")",
-    ndarray: "pp.pprint(" + varname + ")",
-    dict: "pp.pprint(" + varname + ")"
+    python: {
+      DataFrame: "print(" + varname + "[:1000].to_html())",
+      Series: "print(" + varname + "[:1000].to_frame().to_html())",
+      list: "pp.pprint(" + varname + ")",
+      ndarray: "pp.pprint(" + varname + ")",
+      dict: "pp.pprint(" + varname + ")"
+    },
+    r: {
+      DataFrame: 'print(xtable(' + varname + '), type="html")',
+      list: "print(" + varname + ")",
+      vector: "print(" + varname + ")"
+    }
   }
 
-  executeCommand(show_var_statements[type], false, function(result) {
+  executeCommand(show_var_statements["r"][type], false, function(result) {
     variableWindow.webContents.send('ping', { type: type, html: result.output });
   });
 
