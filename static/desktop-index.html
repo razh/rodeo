@@ -62,6 +62,9 @@
             <li id="btn-interrupt" onclick="executeCommand('interrupt_kernel', false);" class="hide pull-right">
               <a style="padding: 7px;"><i class="fa fa-stop-circle"></i>&nbsp;Interrupt</a>
             </li>
+            <li class="pull-right">
+              <a onclick="popOpenConsole();" style="padding: 7px;"><i class="fa fa-external-link"></i>&nbsp;Pop Out</a>
+            </li>
           </ul>
           <div id="consoleTabContainer" class="tab-content">
             <div class="tab-pane active in top-right" id="console-tab" style="height: 100%; overflow: hidden;">
@@ -513,6 +516,20 @@
       "pythonCmd": require('ipc').sendSync('preferences-get').pythonCmd,
       "version": require('ipc').sendSync('preferences-get').version
     });
+    function popOpenConsole() {
+      var BrowserWindow = require('electron').remote.BrowserWindow;
+      var win = new BrowserWindow({ width: 800, height: 600, show: false });
+      win.on('closed', function() {
+        win = null;
+      });
+
+      win.loadURL('file://' + __dirname + '/../static/windows/console.html');
+      win.show();
+      win.openDevTools();
+      win.webContents.on('dom-ready', function() {
+        win.webContents.send('user-home', USER_HOME || "~");
+      });
+    }
   </script>
 </body>
 </html>

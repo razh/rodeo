@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Rodeo</title>
+  <link id="rodeo-theme" href="../css/styles.css" rel="stylesheet"/>
+  <script type="text/javascript">
+    window.$ = window.jQuery = require('jquery');
+  </script>
+  <script src="../js/external.min.js"></script>
+</head>
+<body>
+
+  <div id="bottom-left">
+    <ul id="consoleTab" class="nav nav-tabs">
+      <li>
+        <a style="padding: 7px;"><i class="fa fa-terminal"></i>&nbsp;Console</a>
+      </li>
+      <li id="btn-interrupt" onclick="executeCommand('interrupt_kernel', false);" class="hide pull-right">
+        <a style="padding: 7px;"><i class="fa fa-stop-circle"></i>&nbsp;Interrupt</a>
+      </li>
+    </ul>
+    <div id="consoleTabContainer" class="tab-content">
+      <div class="tab-pane active in top-right" id="console-tab" style="height: 100%; overflow: hidden;">
+        <div id="console" style="height: 100%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <script src="../js/desktop-main.js"></script> -->
+  <script src="../../public/js/helpers.js"></script>
+  <script src="../../public/js/handlebars-templates.js"></script>
+  <script src="../../public/js/templates.js"></script>
+  <script src="../../public/js/console.js"></script>
+  <script src="../../public/js/editor/actions.js"></script>
+  <script src="../../public/js/execute.js"></script>
+  <!-- <script src="../../src/desktop/menu.js"></script> -->
+  <script type="text/javascript">
+    $(document).ready(function() {
+      USER_HOME = '';
+      function adjustHeight() {
+        $("#console").height($(window).height() - $("#consoleTab").height());
+      }
+      window.onresize = function(evt) {
+        adjustHeight();
+      }
+      adjustHeight();
+      startPrompt();
+
+      require('electron').ipcRenderer.on('user-home', function(evt, home) {
+        USER_HOME = home;
+      });
+
+    });
+  </script>
+</body>
+</html>

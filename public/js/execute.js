@@ -14,7 +14,7 @@ function sendCommand(input, hideResult) {
   } else if (input=="reset" || input=="%%reset" || input=="%reset" || input=="quit" || input=="quit()" || input=="exit" || input=="exit()") {
     // do quit stuff...
     if (isDesktop()) {
-      ipc.send('quit');
+      require('electron').ipcRenderer.send('quit');
     } else {
       bootbox.alert("To quit Rodeo, just exit this tab.");
       return;
@@ -23,7 +23,9 @@ function sendCommand(input, hideResult) {
 
   // auto scroll down
   $cont = $("#history-trail").parent();
-  $cont[0].scrollTop = $cont[0].scrollHeight;
+  if ($cont[0]) {
+    $cont[0].scrollTop = $cont[0].scrollHeight;
+  }
 
   // actually run the command
   var data = {
@@ -34,7 +36,7 @@ function sendCommand(input, hideResult) {
 
   $("#btn-interrupt").removeClass("hide");
   if (isDesktop()) {
-    ipc.send('command', data);
+    require('electron').ipcRenderer.send('command', data);
   } else {
     data.msg = 'command';
     ws.sendJSON(data);
@@ -73,7 +75,7 @@ function handleCommandResults(result) {
 }
 
 if (isDesktop()) {
-  ipc.on('command', function(data) {
+  require('electron').ipcRenderer.on('command', function(evt, data) {
     handleCommandResults(data);
   });
 }
@@ -102,7 +104,7 @@ $("#run-markdown").click(function(e) {
   }
 
   if (isDesktop()) {
-    var html = ipc.sendSync('md', { doc: code });
+    var html = require('electron').ipcRenderer.sendSync('md', { doc: code });
     var html = markdown_template({ renderedMarkdown: html, desktop: true });
     renderMarkdown(html);
   } else {
@@ -119,7 +121,7 @@ function executeCommand(command, autocomplete, fn) {
   };
 
   if (isDesktop()) {
-    var results = ipc.sendSync('command', data);
+    var results = require('electron').ipcRenderer.sendSync('command', data);
     fn(results);
   } else {
     $.get("command", data, fn);
