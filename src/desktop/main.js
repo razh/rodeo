@@ -134,9 +134,11 @@ app.on('ready', function() {
         result.command = data.command;
         if (result.image || result.html) {
           mainWindow.webContents.send('plot', result);
-          mainWindow.webContents.send('refresh-variables');
+        } else if (/^help[(]/.test(result.command)) {
+          mainWindow.webContents.send('help', result);
         }
         event.sender.send('command', result);
+        mainWindow.webContents.send('refresh-variables');
       });
     } else {
       python.execute(data.command, data.autocomplete=="true" || data.autocomplete==true, function(result) {

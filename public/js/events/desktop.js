@@ -17,6 +17,13 @@ ipc.on('plot', function(result) {
   $("#btn-interrupt").addClass("hide");
 })
 
+ipc.on('help', function(result) {
+  if (result.output) {
+    $('#help-content').text(result.output);
+    $('a[href="#help"]').tab("show");
+  }
+})
+
 ipc.on('set-working-directory', function(wd) {
   setFiles(wd);
 });

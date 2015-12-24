@@ -44,12 +44,10 @@ function sendCommand(input, hideResult) {
 }
 
 function handleCommandResults(result) {
+
   if (/^help[(]/.test(result.command)) {
-    if (result.output) {
-      $('#help-content').text(result.output);
-      $('a[href="#help"]').tab("show");
-      return;
-    }
+    $("#btn-interrupt").addClass("hide");
+    return;
   }
 
   if (result.status!="complete" && result.stream) {
@@ -65,7 +63,6 @@ function handleCommandResults(result) {
   if (result.status=="complete") {
     $("#btn-interrupt").addClass("hide");
     jqconsole.Write('\n');
-    refreshVariables();
   }
 }
 
