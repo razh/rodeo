@@ -38,7 +38,7 @@ static/js/external.min.js : $(EXTERNAL_FILES)
 		public/js/lib/handlebars-v4.0.2.js \
 		public/js/lib/jqconsole.min.js \
 		public/js/lib/jquery.dataTables.js \
-		public/js/lib/jquery.splitter-0.15.0.js \
+		public/js/lib/split.js \
 		public/js/lib/list.js \
 		public/js/lib/mousetrap.js \
 		public/js/lib/owl.carousel.js \

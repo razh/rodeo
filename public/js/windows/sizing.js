@@ -2,25 +2,46 @@ function setupWindows() {
   // resizeable panes
   $("#pane-container").height($(window).height() - $(".navbar").height());
 
-  getRC(function(rc) {
-    $("#pane-container").split({
-      orientation: 'vertical',
-      limit: 100,
-      position: rc.paneVertical || '50%'
-    });
-
-    $("#right-column").split({
-      orientation: 'horizontal',
-      limit: 100,
-      position: rc.paneHorizontalRight || '50%'
-    });
-
-    $("#left-column").split({
-      orientation: 'horizontal',
-      limit: 100,
-      position: rc.paneHorizontalLeft || '50%'
-    });
+  Split(['#left-column', '#right-column'], {
+    sizes: [50, 50],
+    minSize: 200,
+    gutterSize: 8,
+    direction: 'vertical',
   });
+
+  Split(['#top-left', '#bottom-left'], {
+    sizes: [50, 50],
+    minSize: 200,
+    direction: 'horizontal',
+    gutterSize: 8
+  });
+
+  Split(['#top-right', '#bottom-right'], {
+    sizes: [50, 50],
+    minSize: 200,
+    direction: 'horizontal',
+    gutterSize: 8
+  });
+
+  // getRC(function(rc) {
+  //   $("#pane-container").split({
+  //     orientation: 'vertical',
+  //     limit: 100,
+  //     position: rc.paneVertical || '50%'
+  //   });
+  //
+  //   $("#right-column").split({
+  //     orientation: 'horizontal',
+  //     limit: 100,
+  //     position: rc.paneHorizontalRight || '50%'
+  //   });
+  //
+  //   $("#left-column").split({
+  //     orientation: 'horizontal',
+  //     limit: 100,
+  //     position: rc.paneHorizontalLeft || '50%'
+  //   });
+  // });
 }
 
 function saveWindowCalibration() {

@@ -44,3 +44,14 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
+
+function getRC(fn) {
+  if (isDesktop()) {
+    var rc = require('electron').ipcRenderer.sendSync('preferences-get');
+    fn(rc);
+  } else {
+    $.get("preferences", function(rc) {
+      fn(rc);
+    });
+  }
+}

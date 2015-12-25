@@ -20,9 +20,9 @@
 <body>
   <!-- main section -->
   <div id="pane-container">
-      <div id="left-column">
+      <div id="left-column" class="split split-horizontal">
         <!-- TOP LEFT -->
-        <div id="top-left">
+        <div id="top-left" class="split content">
           <!-- editors -->
           <div class="row">
             <div class="col-sm-10" style="padding: 0px; margin: 0px; padding-left: 5px;">
@@ -54,7 +54,7 @@
         <!-- END TOP LEFT -->
 
         <!-- BOTTOM LEFT -->
-        <div id="bottom-left">
+        <div id="bottom-left" class="split content">
           <ul id="consoleTab" class="nav nav-tabs">
             <li>
               <a style="padding: 7px;"><i class="fa fa-terminal"></i>&nbsp;Console</a>
@@ -63,7 +63,7 @@
               <a style="padding: 7px;"><i class="fa fa-stop-circle"></i>&nbsp;Interrupt</a>
             </li>
             <li class="pull-right">
-              <a onclick="popOpenConsole();" style="padding: 7px;"><i class="fa fa-external-link"></i>&nbsp;Pop Out</a>
+              <a onclick="popOpenConsole();" style="padding: 7px;"><i class="fa fa-external-link"></i></a>
             </li>
           </ul>
           <div id="consoleTabContainer" class="tab-content">
@@ -74,9 +74,9 @@
         </div>
         <!-- END BOTTOM LEFT -->
     </div>
-    <div id="right-column">
+    <div id="right-column" class="split split-horizontal">
         <!-- TOP RIGHT -->
-        <div id="top-right">
+        <div id="top-right" class="split content">
           <ul class="nav nav-tabs">
             <li class="active"><a href="#environment" data-toggle="tab"><i class="fa fa-table"></i>&nbsp;Environment</a></li>
             <li><a href="#history" data-toggle="tab"><i class="fa fa-history"></i>&nbsp;History</a></li>
@@ -122,7 +122,7 @@
         </div>
         <!-- END TOP RIGHT -->
         <!-- BOTTOM RIGHT -->
-        <div id="bottom-right">
+        <div id="bottom-right" class="split content">
           <ul class="nav nav-tabs">
             <li class="active"><a href="#files" data-toggle="tab"><i class="fa fa-file-text-o"></i>&nbsp;Files</a></li>
             <li><a href="#plot-window" data-toggle="tab"><i class="fa fa-bar-chart"></i>&nbsp;Plots</a></li>
@@ -521,12 +521,15 @@
       var win = new BrowserWindow({ width: 800, height: 600, show: false });
       win.on('closed', function() {
         win = null;
+        $("#bottom-left").removeClass("hide");
       });
 
       win.loadURL('file://' + __dirname + '/../static/windows/console.html');
       win.show();
-      win.openDevTools();
+      // win.openDevTools();
       win.webContents.on('dom-ready', function() {
+        $("#bottom-left").addClass("hide");
+        setupWindows({ omitLeft: true });
         win.webContents.send('user-home', USER_HOME || "~");
       });
     }

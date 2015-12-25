@@ -251,17 +251,6 @@ function deletePythonPath(el) {
 // initialize preferences
 USER_HOME = null;
 
-function getRC(fn) {
-  if (isDesktop()) {
-    var rc = ipc.sendSync('preferences-get');
-    fn(rc);
-  } else {
-    $.get("preferences", function(rc) {
-      fn(rc);
-    });
-  }
-}
-
 function showPreferences() {
   $('a[href^="#preferences"]').click();
 }
