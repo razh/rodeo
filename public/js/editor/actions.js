@@ -207,8 +207,9 @@ function saveFile(filepath, content, fn) {
 }
 
 
-function closeActiveTab(n) {
-  if (! $("#editor-tab-" + n + " .unsaved").hasClass("hide")) {
+function closeActiveTab(n, ignore) {
+  ignore = ignore || false;
+  if (! $("#editor-tab-" + n + " .unsaved").hasClass("hide") && ignore==false) {
     bootbox.dialog({
       title: "Do you want to save the changes you've made to this file?",
       message: "Your changes will be discarded otherwise.",
