@@ -517,12 +517,14 @@
       "version": require('ipc').sendSync('preferences-get').version
     });
     function popOpenConsole() {
+      // TODO: when Split.js allows you to do this with the api, switch to that
       $("#top-left").css("height", "calc(100% - 2.5px)");
       $("#bottom-left").css("height", "calc(0% - 2.5px)");
       var BrowserWindow = require('electron').remote.BrowserWindow;
       var win = new BrowserWindow({ width: 800, height: 600, show: false });
       win.on('closed', function() {
         win = null;
+        // TODO: when Split.js allows you to do this with the api, switch to that
         $("#top-left").css("height", "calc(50% - 2.5px)");
         $("#bottom-left").css("height", "calc(50% - 2.5px)");
       });
