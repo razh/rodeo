@@ -1,26 +1,23 @@
 function setupWindows() {
   // resizeable panes
   $("#pane-container").height($(window).height() - $(".navbar").height());
-
   Split(['#left-column', '#right-column'], {
-    sizes: [50, 50],
-    minSize: 200,
-    gutterSize: 8,
-    direction: 'vertical',
+      gutterSize: 5,
+      cursor: 'col-resize'
   });
-
   Split(['#top-left', '#bottom-left'], {
+    direction: 'vertical',
     sizes: [50, 50],
-    minSize: 200,
-    direction: 'horizontal',
-    gutterSize: 8
+    gutterSize: 5,
+    minSize: 0,
+    cursor: 'row-resize'
   });
-
   Split(['#top-right', '#bottom-right'], {
+    direction: 'vertical',
     sizes: [50, 50],
-    minSize: 200,
-    direction: 'horizontal',
-    gutterSize: 8
+    gutterSize: 5,
+    minSize: 0,
+    cursor: 'row-resize'
   });
 
   // getRC(function(rc) {

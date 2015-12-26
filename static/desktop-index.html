@@ -22,7 +22,7 @@
   <div id="pane-container">
       <div id="left-column" class="split split-horizontal">
         <!-- TOP LEFT -->
-        <div id="top-left" class="split content">
+        <div id="top-left" class="split split-container">
           <!-- editors -->
           <div class="row">
             <div class="col-sm-10" style="padding: 0px; margin: 0px; padding-left: 5px;">
@@ -54,7 +54,7 @@
         <!-- END TOP LEFT -->
 
         <!-- BOTTOM LEFT -->
-        <div id="bottom-left" class="split content">
+        <div id="bottom-left" class="split split-container">
           <ul id="consoleTab" class="nav nav-tabs">
             <li>
               <a style="padding: 7px;"><i class="fa fa-terminal"></i>&nbsp;Console</a>
@@ -76,7 +76,7 @@
     </div>
     <div id="right-column" class="split split-horizontal">
         <!-- TOP RIGHT -->
-        <div id="top-right" class="split content">
+        <div id="top-right" class="split split-container">
           <ul class="nav nav-tabs">
             <li class="active"><a href="#environment" data-toggle="tab"><i class="fa fa-table"></i>&nbsp;Environment</a></li>
             <li><a href="#history" data-toggle="tab"><i class="fa fa-history"></i>&nbsp;History</a></li>
@@ -122,7 +122,7 @@
         </div>
         <!-- END TOP RIGHT -->
         <!-- BOTTOM RIGHT -->
-        <div id="bottom-right" class="split content">
+        <div id="bottom-right" class="split split-container">
           <ul class="nav nav-tabs">
             <li class="active"><a href="#files" data-toggle="tab"><i class="fa fa-file-text-o"></i>&nbsp;Files</a></li>
             <li><a href="#plot-window" data-toggle="tab"><i class="fa fa-bar-chart"></i>&nbsp;Plots</a></li>
@@ -517,19 +517,20 @@
       "version": require('ipc').sendSync('preferences-get').version
     });
     function popOpenConsole() {
+      $("#top-left").css("height", "calc(100% - 2.5px)");
+      $("#bottom-left").css("height", "calc(0% - 2.5px)");
       var BrowserWindow = require('electron').remote.BrowserWindow;
       var win = new BrowserWindow({ width: 800, height: 600, show: false });
       win.on('closed', function() {
         win = null;
-        $("#bottom-left").removeClass("hide");
+        $("#top-left").css("height", "calc(50% - 2.5px)");
+        $("#bottom-left").css("height", "calc(50% - 2.5px)");
       });
 
       win.loadURL('file://' + __dirname + '/../static/windows/console.html');
       win.show();
       // win.openDevTools();
       win.webContents.on('dom-ready', function() {
-        $("#bottom-left").addClass("hide");
-        setupWindows({ omitLeft: true });
         win.webContents.send('user-home', USER_HOME || "~");
       });
     }
