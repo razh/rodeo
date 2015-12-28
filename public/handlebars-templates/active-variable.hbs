@@ -2,7 +2,7 @@
   <td>{{name}}</td>
   <td>{{repr}}</td>
   <td style="td-align: center;">
-    <a target=_blank {{#isDesktop}}onclick="showVariable('{{name}}', '{{type}}');"{{else}}href="variable?name={{name}}&type={{type}}"{{/isDesktop}}>
+    <a class="btn btn-xs btn-default" target=_blank {{#isDesktop}}onclick="showVariable('{{name}}', '{{type}}');"{{else}}href="variable?name={{name}}&type={{type}}"{{/isDesktop}}>
       <span class='fa fa-list-alt' aria-hidden='true'></span>&nbsp;View
     </a>
   </td>

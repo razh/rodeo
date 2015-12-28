@@ -223,7 +223,7 @@ function closeActiveTab(n, ignore) {
         },
         dontSave: {
           label: "Don't Save",
-          className: "btn-default",
+          className: "btn-danger",
             callback: function() {
               $("#editorsTab .editor-tab-a").first().click();
               $("#editor-tab-" + n).remove();

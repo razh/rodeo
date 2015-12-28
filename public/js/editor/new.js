@@ -14,6 +14,7 @@ function configureEditor(editor) {
   editor.completer = new Autocomplete(editor);
   editor.setTheme("ace/theme/chrome");
   editor.getSession().setMode("ace/mode/python");
+  editor.setAutoScrollEditorIntoView(true);
   editor.setOptions({
     useSoftTabs: true,
     showPrintMargin: false,

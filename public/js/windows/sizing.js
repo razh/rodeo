@@ -110,6 +110,7 @@ function calibratePanes() {
   $("#packages-container").css("overflow-y", "scroll");
   $("#help-content").css("overflow-y", "scroll");
   $("#preferences").css("overflow-y", "scroll");
+
 }
 
 // on resize w/ gray bars, recalibrate
