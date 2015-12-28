@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 1.2.0
+- Python PATH triage
+- Ability to have multiple Python environments
+- Pop-out console
+- Ability to interrupt kernel / totally async execution
+- Less whitespace in UI (tables, window-draggers, tabs)
+- Copy/Paste bugfix for windows
+
 ## 1.1.0
 - Python/Markdown support
 - Auto-updates for OSX
